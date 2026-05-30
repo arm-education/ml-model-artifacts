@@ -11,6 +11,12 @@ Model Explorer adapters:
 - `tosa-adapter-model-explorer` for TOSA `.tosa` intermediate representations
 - `vgf-adapter-model-explorer` for Vulkan Graph Format `.vgf` artifacts
 
+## Git LFS
+
+This repository uses Git LFS for model artifacts. Install Git LFS before
+cloning, or run `git lfs pull` after cloning to download the actual `.pte`,
+`.tosa`, and `.vgf` files.
+
 ## Repository layout
 
 ```text
