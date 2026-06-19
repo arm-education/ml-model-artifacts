@@ -10,12 +10,14 @@ Model Explorer adapters:
 - `pte-adapter-model-explorer` for ExecuTorch `.pte` programs
 - `tosa-adapter-model-explorer` for TOSA `.tosa` intermediate representations
 - `vgf-adapter-model-explorer` for Vulkan Graph Format `.vgf` artifacts
+- ETDump `.etdp` and ETRecord `.etrecord` files for debugging ExecuTorch
+  execution traces
 
 ## Git LFS
 
 This repository uses Git LFS for model artifacts. Install Git LFS before
 cloning, or run `git lfs pull` after cloning to download the actual `.pte`,
-`.tosa`, and `.vgf` files.
+`.tosa`, `.vgf`, `.etdp`, and `.etrecord` files.
 
 ## Repository layout
 
@@ -23,6 +25,18 @@ cloning, or run `git lfs pull` after cloning to download the actual `.pte`,
 model-explorer-artifacts/
 ├── LICENSE.md
 ├── README.md
+├── etdump/
+│   ├── mobilenetv2_fp32_ethosu.etdp
+│   ├── mobilenetv2_int8_ethosu.etdp
+│   ├── mobilenetv2_lrn_int8_ethosu.etdp
+│   ├── opt125m_portable.etdp
+│   └── opt125m_xnnpack.etdp
+├── etrecord/
+│   ├── mobilenetv2_fp32_ethosu.etrecord
+│   ├── mobilenetv2_int8_ethosu.etrecord
+│   ├── mobilenetv2_lrn_int8_ethosu.etrecord
+│   ├── opt125m_portable.etrecord
+│   └── opt125m_xnnpack.etrecord
 ├── pte/
 │   ├── add_sigmoid_vgf.pte
 │   ├── mv2_cortex_m.pte
@@ -47,6 +61,34 @@ model-explorer-artifacts/
 ```
 
 ## Artifact groups
+
+### ETDump artifacts
+
+The `etdump/` directory contains ExecuTorch debug data files. Use these with
+ExecuTorch debugging tools to inspect runtime events and relate execution
+behavior back to exported program artifacts.
+
+| File | Purpose |
+| --- | --- |
+| `mobilenetv2_fp32_ethosu.etdp` | Debug data for the MobileNetV2 floating-point Ethos-U85 run. |
+| `mobilenetv2_int8_ethosu.etdp` | Debug data for the MobileNetV2 int8 Ethos-U85 run. |
+| `mobilenetv2_lrn_int8_ethosu.etdp` | Debug data for the fragmented MobileNetV2 int8 Ethos-U85 run. |
+| `opt125m_portable.etdp` | Debug data for the OPT-125M portable-kernel run. |
+| `opt125m_xnnpack.etdp` | Debug data for the OPT-125M XNNPACK-delegated run. |
+
+### ETRecord artifacts
+
+The `etrecord/` directory contains ExecuTorch record files. Use these with
+ExecuTorch debugging tools to map runtime trace data to exported programs,
+delegate regions, and operator-level execution details.
+
+| File | Purpose |
+| --- | --- |
+| `mobilenetv2_fp32_ethosu.etrecord` | Record file for the MobileNetV2 floating-point Ethos-U85 export. |
+| `mobilenetv2_int8_ethosu.etrecord` | Record file for the MobileNetV2 int8 Ethos-U85 export. |
+| `mobilenetv2_lrn_int8_ethosu.etrecord` | Record file for the fragmented MobileNetV2 int8 Ethos-U85 export. |
+| `opt125m_portable.etrecord` | Record file for the OPT-125M portable-kernel export. |
+| `opt125m_xnnpack.etrecord` | Record file for the OPT-125M XNNPACK-delegated export. |
 
 ### PTE artifacts
 
@@ -112,10 +154,12 @@ Launch Model Explorer with all three adapters:
 model-explorer --extensions=pte_adapter_model_explorer,tosa_adapter_model_explorer,vgf_adapter_model_explorer
 ```
 
-Then open an artifact from the `pte/`, `tosa/`, or `vgf/` directory.
+Then open an artifact from the `pte/`, `tosa/`, or `vgf/` directory. Use the
+matching files from `etdump/` and `etrecord/` with ExecuTorch debugging tools
+when you need runtime trace context.
 
-Some artifacts are large, especially the OPT-125M `.pte` files. They may take
-longer to load and render than the smaller examples.
+Some artifacts are large, especially the OPT-125M `.pte` and `.etrecord` files.
+They may take longer to download, load, and render than the smaller examples.
 
 ## License
 
