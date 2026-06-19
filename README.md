@@ -4,14 +4,23 @@ This repository contains model artifacts for the Arm Learning Path
 **Visualize and understand ExecuTorch, TOSA, and Neural Graphics Models with
 Google's Model Explorer**.
 
-The artifacts are intended to be opened in Google Model Explorer with the Arm
-Model Explorer adapters:
+These artifacts are provided only as companion material for that Learning Path.
+They are not intended for use outside the exercises and explanations in the
+Learning Path.
+
+The graph artifacts are intended to be opened in Google Model Explorer with the
+Arm Model Explorer adapters:
 
 - `pte-adapter-model-explorer` for ExecuTorch `.pte` programs
 - `tosa-adapter-model-explorer` for TOSA `.tosa` intermediate representations
 - `vgf-adapter-model-explorer` for Vulkan Graph Format `.vgf` artifacts
-- ETDump `.etdp` and ETRecord `.etrecord` files for debugging ExecuTorch
-  execution traces
+
+The ExecuTorch trace artifacts are intended to be opened with the ExecuTorch
+Model Explorer extension:
+
+- ETDump `.etdp` files for runtime debug data
+- ETRecord `.etrecord` files for mapping runtime traces back to exported
+  ExecuTorch programs
 
 ## Git LFS
 
@@ -64,9 +73,9 @@ model-explorer-artifacts/
 
 ### ETDump artifacts
 
-The `etdump/` directory contains ExecuTorch debug data files. Use these with
-ExecuTorch debugging tools to inspect runtime events and relate execution
-behavior back to exported program artifacts.
+The `etdump/` directory contains ExecuTorch debug data files. Open these with
+the ExecuTorch Model Explorer extension to inspect runtime events and relate
+execution behavior back to exported program artifacts.
 
 | File | Purpose |
 | --- | --- |
@@ -78,9 +87,9 @@ behavior back to exported program artifacts.
 
 ### ETRecord artifacts
 
-The `etrecord/` directory contains ExecuTorch record files. Use these with
-ExecuTorch debugging tools to map runtime trace data to exported programs,
-delegate regions, and operator-level execution details.
+The `etrecord/` directory contains ExecuTorch record files. Open these with the
+ExecuTorch Model Explorer extension to map runtime trace data to exported
+programs, delegate regions, and operator-level execution details.
 
 | File | Purpose |
 | --- | --- |
@@ -154,9 +163,9 @@ Launch Model Explorer with all three adapters:
 model-explorer --extensions=pte_adapter_model_explorer,tosa_adapter_model_explorer,vgf_adapter_model_explorer
 ```
 
-Then open an artifact from the `pte/`, `tosa/`, or `vgf/` directory. Use the
-matching files from `etdump/` and `etrecord/` with ExecuTorch debugging tools
-when you need runtime trace context.
+Then open an artifact from the `pte/`, `tosa/`, or `vgf/` directory. When you
+need runtime trace context, open matching files from `etdump/` and `etrecord/`
+with the ExecuTorch Model Explorer extension.
 
 Some artifacts are large, especially the OPT-125M `.pte` and `.etrecord` files.
 They may take longer to download, load, and render than the smaller examples.
