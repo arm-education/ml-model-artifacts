@@ -1,3 +1,5 @@
 *.pte filter=lfs diff=lfs merge=lfs -text
 *.tosa filter=lfs diff=lfs merge=lfs -text
 *.vgf filter=lfs diff=lfs merge=lfs -text
+*.etrecord filter=lfs diff=lfs merge=lfs -text
+*.etdp filter=lfs diff=lfs merge=lfs -text
