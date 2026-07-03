@@ -1,4 +1,4 @@
-# Arm ML model artifacts
+# ML model artifacts for learning
 
 This repository contains model artifacts used by Arm Learning Paths that teach
 model analysis, graph inspection, deployment-artifact inspection, and
@@ -9,6 +9,8 @@ explanations. Different Learning Paths may use different subsets of the
 repository depending on whether the focus is MLIA analysis, Model Explorer
 inspection, ExecuTorch runtime traces, TOSA lowering, TensorFlow Lite models, or
 Vulkan ML artifacts.
+
+These artifacts are for learning purposes only, in the context of the learning paths that reference them.
 
 ## Git LFS
 
