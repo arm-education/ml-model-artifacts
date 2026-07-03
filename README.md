@@ -1,37 +1,25 @@
-# Model Explorer artifacts
+# Arm ML model artifacts
 
-This repository contains model artifacts for the Arm Learning Path
-**Visualize and understand ExecuTorch, TOSA, and Neural Graphics Models with
-Google's Model Explorer**.
+This repository contains model artifacts used by Arm Learning Paths that teach
+model analysis, graph inspection, deployment-artifact inspection, and
+target-aware ML workflow concepts.
 
-These artifacts are provided only as companion material for that Learning Path.
-They are not intended for use outside the exercises and explanations in the
-Learning Path.
-
-The graph artifacts are intended to be opened in Google Model Explorer with the
-Arm Model Explorer adapters:
-
-- `pte-adapter-model-explorer` for ExecuTorch `.pte` programs
-- `tosa-adapter-model-explorer` for TOSA `.tosa` intermediate representations
-- `vgf-adapter-model-explorer` for Vulkan Graph Format `.vgf` artifacts
-
-The ExecuTorch trace artifacts are intended to be opened with the ExecuTorch
-Model Explorer extension:
-
-- ETDump `.etdp` files for runtime debug data
-- ETRecord `.etrecord` files for mapping runtime traces back to exported
-  ExecuTorch programs
+These artifacts are companion material for learning-path exercises and
+explanations. Different Learning Paths may use different subsets of the
+repository depending on whether the focus is MLIA analysis, Model Explorer
+inspection, ExecuTorch runtime traces, TOSA lowering, TensorFlow Lite models, or
+Vulkan ML artifacts.
 
 ## Git LFS
 
 This repository uses Git LFS for model artifacts. Install Git LFS before
-cloning, or run `git lfs pull` after cloning to download the actual `.pte`,
-`.tosa`, `.vgf`, `.etdp`, and `.etrecord` files.
+cloning, or run `git lfs pull` after cloning to download the actual `.pt2`,
+`.pte`, `.tflite`, `.tosa`, `.vgf`, `.etdp`, and `.etrecord` files.
 
 ## Repository layout
 
 ```text
-model-explorer-artifacts/
+ml-model-artifacts/
 ├── LICENSE.md
 ├── README.md
 ├── etdump/
@@ -56,6 +44,12 @@ model-explorer-artifacts/
 │   ├── opt125m_cortex_a_xnnpack.pte
 │   ├── small_upscaler_ptq_vgf.pte
 │   └── small_upscaler_qat_vgf.pte
+├── pt2/
+│   └── mv2_fp32.pt2
+├── tflite/
+│   ├── mv2_fp32.tflite
+│   ├── mv2_int8.tflite
+│   └── mv2_lrn_int8.tflite
 ├── tosa/
 │   ├── mv2_fp32.tosa
 │   ├── mv2_int8.tosa
@@ -102,8 +96,8 @@ programs, delegate regions, and operator-level execution details.
 ### PTE artifacts
 
 The `pte/` directory contains ExecuTorch program files. Use these with the PTE
-adapter to inspect deployment graphs, delegate regions, backend partitioning,
-and CPU fallback.
+adapter (part of the Model Explorer ExecuTorch extension) to inspect deployment graphs, delegate regions, backend partitioning,
+and CPU fallback. You can also use these with MLIA.
 
 | File | Purpose |
 | --- | --- |
@@ -117,11 +111,30 @@ and CPU fallback.
 | `small_upscaler_ptq_vgf.pte` | Small upscaler post-training quantized artifact using the Arm VGF backend path. |
 | `small_upscaler_qat_vgf.pte` | Small upscaler quantization-aware trained artifact using the Arm VGF backend path. |
 
+### PT2 artifacts
+
+The `pt2/` directory contains PyTorch exported programs for use with MLIA
+converter plugins or PyTorch/ExecuTorch-oriented workflows.
+
+| File | Purpose |
+| --- | --- |
+| `mv2_fp32.pt2` | MobileNetV2 floating-point PyTorch exported program. |
+
+### TFLite artifacts
+
+The `tflite/` directory contains TensorFlow Lite MobileNetV2 artifacts for use with Model Explorer or MLIA
+
+| File | Purpose |
+| --- | --- |
+| `mv2_fp32.tflite` | MobileNetV2 floating-point TensorFlow Lite model. |
+| `mv2_int8.tflite` | MobileNetV2 full-integer TensorFlow Lite model with int8 input and output tensors. |
+| `mv2_lrn_int8.tflite` | MobileNetV2 full-integer TensorFlow Lite model with an inserted local response normalization operation. |
+
 ### TOSA artifacts
 
 The `tosa/` directory contains TOSA intermediate representations. Use these with
 the TOSA adapter to inspect lowered operators, tensor shapes, quantized types,
-graph splits, and optimization opportunities.
+graph splits, and optimization opportunities. You can also use these with MLIA.
 
 | File | Purpose |
 | --- | --- |
@@ -144,28 +157,7 @@ SPIR-V graph modules used by Vulkan ML workflows.
 | `small_upscaler_ptq.vgf` | Small upscaler VGF artifact produced from post-training quantization. |
 | `small_upscaler_qat.vgf` | Small upscaler VGF artifact produced from quantization-aware training. |
 
-## Use with Model Explorer
-
-Install Model Explorer and the Arm adapters in a Python virtual environment:
-
-```bash
-python -m venv model_explorer_env
-source model_explorer_env/bin/activate
-pip install ai-edge-model-explorer
-pip install pte-adapter-model-explorer
-pip install tosa-adapter-model-explorer
-pip install vgf-adapter-model-explorer
-```
-
-Launch Model Explorer with all three adapters:
-
-```bash
-model-explorer --extensions=pte_adapter_model_explorer,tosa_adapter_model_explorer,vgf_adapter_model_explorer
-```
-
-Then open an artifact from the `pte/`, `tosa/`, or `vgf/` directory. When you
-need runtime trace context, open matching files from `etdump/` and `etrecord/`
-with the ExecuTorch Model Explorer extension.
+## Note
 
 Some artifacts are large, especially the OPT-125M `.pte` and `.etrecord` files.
 They may take longer to download, load, and render than the smaller examples.
