@@ -45,9 +45,12 @@ ml-model-artifacts/
 │   ├── opt125m_cortex_a_portable.pte
 │   ├── opt125m_cortex_a_xnnpack.pte
 │   ├── small_upscaler_ptq_vgf.pte
-│   └── small_upscaler_qat_vgf.pte
+│   ├── small_upscaler_qat_vgf.pte
+│   ├── toy_conditional_select_int8_ethos_u55_256.pte
+│   └── toy_conditional_select_int8_ethos_u85_256.pte
 ├── pt2/
-│   └── mv2_fp32.pt2
+│   ├── mv2_fp32.pt2
+│   └── toy_conditional_select_fp32.pt2
 ├── tflite/
 │   ├── mv2_fp32.tflite
 │   ├── mv2_int8.tflite
@@ -99,7 +102,14 @@ programs, delegate regions, and operator-level execution details.
 
 The `pte/` directory contains ExecuTorch program files. Use these with the PTE
 adapter (part of the Model Explorer ExecuTorch extension) to inspect deployment graphs, delegate regions, backend partitioning,
-and CPU fallback. You can also use these with MLIA.
+and work outside accelerator delegates. You can also use these with MLIA.
+
+Non-delegated work is not guaranteed to run on every CPU runtime. ExecuTorch
+runtime behavior depends on the kernels linked into the target build and on the
+operators, dtypes, layouts, and shapes those kernels support. Cortex-M
+bare-metal runtimes often include a narrower kernel set than Cortex-A runtimes,
+and both can use selective builds that include only the kernels needed by a
+product.
 
 | File | Purpose |
 | --- | --- |
@@ -112,6 +122,8 @@ and CPU fallback. You can also use these with MLIA.
 | `opt125m_cortex_a_xnnpack.pte` | OPT-125M Cortex-A artifact with XNNPACK delegation. |
 | `small_upscaler_ptq_vgf.pte` | Small upscaler post-training quantized artifact using the Arm VGF backend path. |
 | `small_upscaler_qat_vgf.pte` | Small upscaler quantization-aware trained artifact using the Arm VGF backend path. |
+| `toy_conditional_select_int8_ethos_u55_256.pte` | Synthetic int8 ExecuTorch artifact for Ethos-U55-256, used to demonstrate target-dependent delegation and MLIA Corstone analysis. |
+| `toy_conditional_select_int8_ethos_u85_256.pte` | Synthetic int8 ExecuTorch artifact for Ethos-U85-256, used to demonstrate target-dependent delegation and MLIA Corstone analysis. |
 
 ### PT2 artifacts
 
@@ -121,6 +133,7 @@ converter plugins or PyTorch/ExecuTorch-oriented workflows.
 | File | Purpose |
 | --- | --- |
 | `mv2_fp32.pt2` | MobileNetV2 floating-point PyTorch exported program. |
+| `toy_conditional_select_fp32.pt2` | Synthetic floating-point PyTorch exported program for a small convolution plus conditional selection model. |
 
 ### TFLite artifacts
 
